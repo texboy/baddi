@@ -1,6 +1,6 @@
 {
-  "name": "matthewbdaly/ernie",
-  "description": "Simple DI container",
+  "name": "texboy/baddi",
+  "description": "Bad Di",
   "type": "library",
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.3",
