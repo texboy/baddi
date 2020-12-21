@@ -1,0 +1,4 @@
+suites:
+  test_suite:
+    namespace: Texboy\BadDi
+    psr4_prefix: Texboy\BadDi
