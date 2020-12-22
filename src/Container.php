@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace Texboy\BadDi;
 
+use ArrayAccess;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionException;
 use Texboy\BadDi\Exceptions\NotFoundException;
 
-class Container implements ContainerInterface
+class Container implements ContainerInterface, ArrayAccess
 {
     private $services;
 
@@ -95,5 +96,39 @@ class Container implements ContainerInterface
     {
         $this->services[$key] = $value;
         return $this;
+    }
+
+    /**
+     * @param mixed $offset
+     * @return bool
+     */
+    public function offsetExists($offset): bool
+    {
+        return isset($this->services[$offset]);
+    }
+
+    /**
+     * @param mixed $offset
+     * @return mixed|void
+     * @throws NotFoundException
+     */
+    public function offsetGet($offset)
+    {
+        if (!isset($this->services[$offset])) {
+            throw new NotFoundException(sprintf("Definition for the %s does not exist in the services array", [$offset]));
+        }
+        return $this->get($this->services[$offset]);
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->services[$offset] = $value;
+    }
+
+    public function offsetUnset($offset)
+    {
+        if (isset($this->services[$offset])) {
+            unset($this->services[$offset]);
+        }
     }
 }

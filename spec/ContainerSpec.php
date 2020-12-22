@@ -47,6 +47,14 @@ class ContainerSpec extends ObjectBehavior
         $this->set('Foo\Bar', $toResolve)->shouldReturn($this);
     }
 
+    function it_can_register_dependencies_using_array_access()
+    {
+        $toResolve = new class {
+        };
+        $this["Foo\Bar"] = $toResolve;
+        $this->has('Foo\Bar')->shouldReturn(true);
+    }
+
     function it_can_resolve_registered_dependencies()
     {
         $toResolve = new class {
@@ -94,6 +102,19 @@ class ContainerSpec extends ObjectBehavior
         });
         $this->set('Foo\Bar', $toResolve);
         $this->get('Foo\Bar')->shouldReturnAnInstanceOf($toResolve);
+    }
+
+    function it_can_resolve_dependencies_with_array_access()
+    {
+        $toResolve = get_class(new class(new DateTime) {
+            public $datetime;
+            public function __construct(DateTime $datetime)
+            {
+                $this->datetime = $datetime;
+            }
+        });
+        $this->offsetSet('Foo\Bar',  $toResolve);
+        $this->offsetGet( 'Foo\Bar')->shouldHaveType($toResolve);
     }
 
     function it_can_register_a_array_of_dependencies()
