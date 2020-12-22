@@ -20,6 +20,13 @@ class Container implements ContainerInterface
         $this->services = $services;
     }
 
+    /**
+     * @param array $services
+     */
+    public function setServices(array $services): void
+    {
+        $this->services = $services;
+    }
 
     /**
      * @inheritDoc
