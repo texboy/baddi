@@ -10,7 +10,16 @@ use Texboy\BadDi\Exceptions\NotFoundException;
 
 class Container implements ContainerInterface
 {
-    private $services = [];
+    private $services;
+
+    /**
+     * @param array $services
+     */
+    public function __construct(array $services = [])
+    {
+        $this->services = $services;
+    }
+
 
     /**
      * @inheritDoc
